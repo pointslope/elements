@@ -22,7 +22,8 @@
       (d/create-database url)
 
       (let [conn (d/connect url)]
-        (ensure-norms conn norms)
+        (when (seq norms)
+          (ensure-norms conn norms))
         {:url url :conn conn}))
     (catch Throwable t
       (throw
