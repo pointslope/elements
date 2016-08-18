@@ -4,9 +4,10 @@ A collection of reusable elements for Stuart Sierra's [component](https://github
 
 ## Installation
 
-Add the following dependency to your project
+This library is available on Clojars. Simply add the following dependency to your project:
 
-[pointslope/elements "0.1.0-SNAPSHOT"]
+[![Clojars Project](https://img.shields.io/clojars/v/pointslope/elements.svg)](https://clojars.org/pointslope/elements)
+
 
 ## Usage
 
