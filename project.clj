@@ -1,4 +1,4 @@
-(defproject pointslope/elements "0.1.0-SNAPSHOT"
+(defproject pointslope/elements "0.1.0"
   :description "Reusable elements for component-based Clojure applications"
   :url "https://github.com/pointslope/elements"
   :license {:name "Eclipse Public License"
