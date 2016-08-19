@@ -16,6 +16,9 @@
   nil
   (service-map [_] {}))
 
+(defprotocol Service
+  (service-fn [this] "The service fn"))
+
 ;; --- Pedestal component helpers ---
 
 (def attribution-meta
@@ -93,10 +96,15 @@
           (http/create-server)
           (start-fn)
           ((partial assoc this :service)))))
+
   (stop [this]
     (when service
       (stop-fn service))
-    (assoc this :service nil)))
+    (assoc this :service nil))
+
+  Service
+  (service-fn [this]
+    (get-in this [:service ::http/service-fn])))
 
 (defn new-pedestal
   ([]
