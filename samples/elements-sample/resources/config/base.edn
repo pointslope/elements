@@ -1,0 +1,12 @@
+{:pedestal
+ {:reloadable? #immuconf/default false
+  :service
+  {:env #immuconf/default :prod
+   :io.pedestal.http/resource-path #immuconf/default "/public"
+   :io.pedestal.http/type #immuconf/default :jetty
+   :io.pedestal.http/port #immuconf/default 8080
+   :io.pedestal.http/join? #immuconf/default true
+   :io.pedestal.http/container-options
+   {:h2c? #immuconf/default true
+    :h2? #immuconf/default false
+    :ssl? #immuconf/default false}}}}

@@ -1,0 +1,5 @@
+{:pedestal
+ {:reloadable? true
+  :service
+  {:env :dev
+   :io.pedestal.http/join? false}}}
