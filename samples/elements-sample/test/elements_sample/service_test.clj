@@ -1,10 +1,13 @@
 (ns elements-sample.service-test
   (:require [elements-sample.service :as service]
             [elements-sample.system :as system]
+            [io.pedestal.http.route :as route]
             [io.pedestal.test :refer [response-for]]
             [pointslope.elements.test :refer [with-system]]
             [pointslope.elements.pedestal :as pedestal]
             [clojure.test :refer :all]))
+
+(def url-for (route/url-for-routes (route/expand-routes service/routes)))
 
 (defn test-system
   "A system which does not start an http server."
@@ -20,11 +23,11 @@
 (deftest home-page-test
   (with-system [ts (test-system)]
     (is (=
-         (:body (response-for (service-fn ts) :get "/"))
-         "Hello World!"))
+         (:body (response-for (service-fn ts) :get (url-for ::service/hello)))
+         "{\"data\":\"Hello World!\"}"))
     (is (=
-         (:headers (response-for (service-fn ts) :get "/"))
-         {"Content-Type" "text/html;charset=UTF-8"
+         (:headers (response-for (service-fn ts) :get (url-for ::service/hello)))
+         {"Content-Type" "application/json;charset=UTF-8"
           "Strict-Transport-Security" "max-age=31536000; includeSubdomains"
           "X-Frame-Options" "DENY"
           "X-Content-Type-Options" "nosniff"
@@ -33,11 +36,11 @@
 (deftest about-page-test
   (with-system [ts (test-system)]
     (is (.contains
-         (:body (response-for (service-fn ts) :get "/about"))
+         (:body (response-for (service-fn ts) :get (url-for ::service/about)))
          "Clojure 1.8"))
     (is (=
-         (:headers (response-for (service-fn ts) :get "/about"))
-         {"Content-Type" "text/html;charset=UTF-8"
+         (:headers (response-for (service-fn ts) :get (url-for ::service/hello)))
+         {"Content-Type" "application/json;charset=UTF-8"
           "Strict-Transport-Security" "max-age=31536000; includeSubdomains"
           "X-Frame-Options" "DENY"
           "X-Content-Type-Options" "nosniff"

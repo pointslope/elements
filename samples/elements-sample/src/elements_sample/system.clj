@@ -2,6 +2,7 @@
     (:require [com.stuartsierra.component :as component]
               [pointslope.elements.pedestal :as pedestal-component]
               [pointslope.elements.configurator :as config-component]
+              [pointslope.elements.datomic :as datomic-component]
               [io.pedestal.http :as http]
               [elements-sample.service :as service]))
 
@@ -12,10 +13,14 @@
    (let [{:keys [pedestal-start-fn pedestal-stop-fn]} (apply hash-map opts)]
      (component/system-map
       :config (config-component/new-configurator)
+      :datomic (component/using
+                (datomic-component/new-database)
+                [:config])
       :service (component/using
                 (service/new-service)
                 [:config])
       :pedestal (component/using
                  (pedestal-component/new-pedestal pedestal-start-fn pedestal-stop-fn)
                  {:service-map-provider :service
-                  :config :config})))))
+                  :config               :config
+                  :datomic              :datomic})))))

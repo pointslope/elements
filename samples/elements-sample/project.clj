@@ -13,6 +13,7 @@
                                [io.pedestal/pedestal.jetty]
                                [com.datomic/datomic-free]]]
                  [com.stuartsierra/component "0.3.1"]
+                 [com.datomic/datomic-free "0.9.5394"]
                  [io.pedestal/pedestal.service "0.5.1"]
                  ;; Remove this line and uncomment one of the next lines to
                  ;; use Immutant or Tomcat instead of Jetty:

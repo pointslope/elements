@@ -1,7 +1,6 @@
 (ns elements-sample.service
   (:require [com.stuartsierra.component :as component]
             [io.pedestal.log :as log]
-            [io.pedestal.interceptor :as interceptor]
             [io.pedestal.http :as http]
             [io.pedestal.http.route :as route]
             [io.pedestal.http.body-params :as body-params]
@@ -10,30 +9,22 @@
             [ring.util.response :as ring-resp]))
 
 (def common-interceptors [(body-params/body-params)
-                          http/html-body
+                          http/json-body
                           (pedestal/using-component :config)])
 
-(def hello
-  (interceptor/interceptor
-   {:name ::greeting
-    :enter (fn [context]
-             (assoc context
-                    :response
-                    (ring-resp/response "Hello World!")))}))
+(defn hello
+  [_]
+  (ring-resp/response {:data "Hello World!"}))
 
-(def about
-  (interceptor/interceptor
-   {:name ::about
-    :enter (fn [context]
-             (assoc context
-                    :response
-                    (ring-resp/response (format "Clojure %s - served from %s"
-                                                (clojure-version)
-                                                (route/url-for ::about)))))}))
+(defn about
+  [_]
+  (ring-resp/response {:data (format "Clojure %s - served from %s"
+                                     (clojure-version)
+                                     (route/url-for ::about))}))
 
 (def routes
-  #{["/" :get (conj common-interceptors hello) :route-name ::greeting]
-    ["/about" :get (conj common-interceptors about) :route-name ::about]})
+  #{["/" :get (conj common-interceptors `hello)]
+    ["/about" :get (conj common-interceptors `about)]})
 
 (defrecord Service [routes config]
   pedestal/ServiceMapProvider

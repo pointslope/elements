@@ -1,0 +1,7 @@
+{:sample/seed-data
+ {:txes [[{:db/id      #db/id [:db.part/user]
+           :user/gid   #db/squuid :new
+           :user/name  "Steve Huff"}
+          {:db/id      #db/id [:db.part/user]
+           :user/gid   #db/squuid :new
+           :user/name  "Chico Fernandez"}]]}}
